@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-""" Test for amenity """
+"""test for amenity"""
 import unittest
 import os
-from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
+from models.base_model import BaseModel
 import pep8
 
 

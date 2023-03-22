@@ -1,15 +1,14 @@
 #!/usr/bin/python3
-""" test for review """
+"""test for review"""
 import unittest
 import os
-from os import getenv
-from tests.test_models.test_base_model import test_basemodel
 from models.review import Review
+from models.base_model import BaseModel
 import pep8
 
 
-class test_review(test_basemodel):
-    """ this will test the review class """
+class TestReview(unittest.TestCase):
+    """this will test the place class"""
 
     @classmethod
     def setUpClass(cls):
@@ -37,27 +36,37 @@ class test_review(test_basemodel):
         p = style.check_files(['models/review.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
+    def test_checking_for_docstring_Review(self):
+        """checking for docstrings"""
+        self.assertIsNotNone(Review.__doc__)
 
-    def __init__(self, *args, **kwargs):
-        """ initializes the tests """
-        super().__init__(*args, **kwargs)
-        self.name = "Review"
-        self.value = Review
+    def test_attributes_review(self):
+        """chekcing if review have attributes"""
+        self.assertTrue('id' in self.rev.__dict__)
+        self.assertTrue('created_at' in self.rev.__dict__)
+        self.assertTrue('updated_at' in self.rev.__dict__)
+        self.assertTrue('place_id' in self.rev.__dict__)
+        self.assertTrue('text' in self.rev.__dict__)
+        self.assertTrue('user_id' in self.rev.__dict__)
 
-    def test_place_id(self):
-        """ checks for place attributes """
-        new = self.value()
-        self.assertEqual(type(new.place_id), str)
+    def test_is_subclass_Review(self):
+        """test if review is subclass of BaseModel"""
+        self.assertTrue(issubclass(self.rev.__class__, BaseModel), True)
 
-    def test_user_id(self):
-        """ checks for user attributes """
-        new = self.value()
-        self.assertEqual(type(new.user_id), str)
+    def test_attribute_types_Review(self):
+        """test attribute type for Review"""
+        self.assertEqual(type(self.rev.text), str)
+        self.assertEqual(type(self.rev.place_id), str)
+        self.assertEqual(type(self.rev.user_id), str)
 
-    def test_text(self):
-        """ checks for test attributes """
-        new = self.value()
-        self.assertEqual(type(new.text), str)
+    def test_save_Review(self):
+        """test if the save works"""
+        self.rev.save()
+        self.assertNotEqual(self.rev.created_at, self.rev.updated_at)
+
+    def test_to_dict_Review(self):
+        """test if dictionary works"""
+        self.assertEqual('to_dict' in dir(self.rev), True)
 
 
 if __name__ == "__main__":

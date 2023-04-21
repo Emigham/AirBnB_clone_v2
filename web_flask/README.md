@@ -1,1 +1,1 @@
-AirBNB clone web infrastructure
+Web stack debugging #2
